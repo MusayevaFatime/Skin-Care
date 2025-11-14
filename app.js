@@ -17,7 +17,7 @@ document.querySelector(".start-btn").addEventListener("click", function() {
 });
 
 let currentQuestion = 0;
-const questions = document.querySelectorAll(".question");
+const questions = document. querySelectorAll(".question");
 
 const results = {
   "Oily-Acne-High": "Perfect cream for oily skin, acne problem, and high budget.",
