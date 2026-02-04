@@ -80,3 +80,55 @@ document.getElementById('option6').addEventListener('click', () => setAnswer('sk
 document.getElementById('option7').addEventListener('click', () => setAnswer('budget', 'Low'));
 document.getElementById('option8').addEventListener('click', () => setAnswer('budget', 'Medium'));
 document.getElementById('option9').addEventListener('click', () => setAnswer('budget', 'High'));
+
+
+const burger = document.getElementById('burger');
+const navbar = document.getElementById('navbar');
+
+burger.addEventListener('click', () => {
+  navbar.classList.toggle('active');
+
+  // Burger animasiyası (3 xətti X şəklinə çevir)
+  burger.classList.toggle('toggle');
+});
+
+
+const testimonials = document.querySelectorAll('.testimonial');
+let currentTestimonial = 0;
+
+document.getElementById('next').addEventListener('click', () => {
+  testimonials[currentTestimonial].classList.remove('active');
+  currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+  testimonials[currentTestimonial].classList.add('active');
+});
+
+document.getElementById('prev').addEventListener('click', () => {
+  testimonials[currentTestimonial].classList.remove('active');
+  currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
+  testimonials[currentTestimonial].classList.add('active');
+});
+
+// Auto slide every 5 seconds
+setInterval(() => {
+  testimonials[currentTestimonial].classList.remove('active');
+  currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+  testimonials[currentTestimonial].classList.add('active');
+}, 5000);
+
+
+
+const faqItems = document.querySelectorAll('.faq-item');
+
+faqItems.forEach(item => {
+  const question = item.querySelector('.faq-question');
+  question.addEventListener('click', () => {
+    item.classList.toggle('active');
+
+    // Optional: close others
+    faqItems.forEach(other => {
+      if(other !== item) {
+        other.classList.remove('active');
+      }
+    });
+  });
+});
