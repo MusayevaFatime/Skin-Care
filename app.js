@@ -2,8 +2,6 @@ function toggleMenu() {
   document.getElementById('navbar').classList.toggle('active');
 }
 
-
-
 let answers = {
   skinType: "",
   skinProblem: "",
@@ -17,7 +15,7 @@ document.querySelector(".start-btn").addEventListener("click", function() {
 });
 
 let currentQuestion = 0;
-const questions = document. querySelectorAll(".question");
+const questions = document.querySelectorAll(".question");
 
 const results = {
   "Oily-Acne-High": "Perfect cream for oily skin, acne problem, and high budget.",
@@ -81,18 +79,16 @@ document.getElementById('option7').addEventListener('click', () => setAnswer('bu
 document.getElementById('option8').addEventListener('click', () => setAnswer('budget', 'Medium'));
 document.getElementById('option9').addEventListener('click', () => setAnswer('budget', 'High'));
 
-
+// Burger Menu
 const burger = document.getElementById('burger');
 const navbar = document.getElementById('navbar');
 
 burger.addEventListener('click', () => {
   navbar.classList.toggle('active');
-
-  // Burger animasiyası (3 xətti X şəklinə çevir)
   burger.classList.toggle('toggle');
 });
 
-
+// Testimonials
 const testimonials = document.querySelectorAll('.testimonial');
 let currentTestimonial = 0;
 
@@ -108,23 +104,19 @@ document.getElementById('prev').addEventListener('click', () => {
   testimonials[currentTestimonial].classList.add('active');
 });
 
-// Auto slide every 5 seconds
+// Auto slide
 setInterval(() => {
   testimonials[currentTestimonial].classList.remove('active');
   currentTestimonial = (currentTestimonial + 1) % testimonials.length;
   testimonials[currentTestimonial].classList.add('active');
 }, 5000);
 
-
-
+// FAQ
 const faqItems = document.querySelectorAll('.faq-item');
-
 faqItems.forEach(item => {
   const question = item.querySelector('.faq-question');
   question.addEventListener('click', () => {
     item.classList.toggle('active');
-
-    // Optional: close others
     faqItems.forEach(other => {
       if(other !== item) {
         other.classList.remove('active');
@@ -132,3 +124,86 @@ faqItems.forEach(item => {
     });
   });
 });
+
+// Product Customization
+const productImg = document.getElementById("customProduct");
+const colorButtons = document.querySelectorAll(".color-btn");
+const scentButtons = document.querySelectorAll(".scent-btn");
+const selectionResult = document.getElementById("selectionResult");
+
+let selectedColor = "#ffaeab";
+let selectedScent = "Lavender";
+
+colorButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    selectedColor = btn.dataset.color;
+    productImg.style.backgroundColor = selectedColor;
+    updateResult();
+  });
+});
+
+scentButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    selectedScent = btn.dataset.scent;
+    updateResult();
+  });
+});
+
+function updateResult() {
+  selectionResult.textContent = `Selection: Color - ${selectedColor}, Scent - ${selectedScent}`;
+}
+
+// Products & Cart
+const productsData = [
+  {id:1, name:"Hydrating Face Cream", price:25, image:"./foto-skincare/product2.png"},
+  {id:2, name:"Vitamin C Serum", price:30, image:"./foto-skincare/product1.jpg"},
+  {id:3, name:"Anti-Aging Night Cream", price:45, image:"./foto-skincare/product3.jpg"},
+  {id:4, name:"Daily Cleanser Gel", price:20, image:"./foto-skincare/product4.jpg"},
+  {id:5, name:"SPF Moisturizer", price:35, image:"./foto-skincare/product5.jpg"},
+  {id:6, name:"Refreshing Toner", price:18, image:"./foto-skincare/product6.jpg"},
+  {id:7, name:"Eye Gel", price:22, image:"./foto-skincare/product7.jpg"},
+  {id:8, name:"Lip Balm Pack", price:12, image:"./foto-skincare/product8.jpg"},
+  {id:9, name:"Exfoliating Scrub", price:27, image:"./foto-skincare/product9.jpg"},
+  {id:10, name:"Face Mask", price:28, image:"./foto-skincare/product10.jpg"}
+];
+
+let cart = [];
+
+const productsContainer = document.querySelector(".products-container");
+const cartCount = document.getElementById("cart-count");
+const cartTotal = document.getElementById("cart-total");
+const cartList = document.getElementById("cart-list");
+
+function displayProducts(){
+  productsContainer.innerHTML = "";
+  productsData.forEach(product => {
+    let card = document.createElement("div");
+    card.className = "product-card";
+    card.innerHTML = `
+      <img src="${product.image}" alt="${product.name}">
+      <h4>${product.name}</h4>
+      <p>$${product.price}</p>
+      <button onclick="addToCart(${product.id})">Add to Cart</button>
+    `;
+    productsContainer.appendChild(card);
+  });
+}
+
+function addToCart(id){
+  const product = productsData.find(p => p.id === id);
+  cart.push(product);
+  updateCart();
+}
+
+function updateCart(){
+  cartCount.textContent = cart.length;
+  let total = cart.reduce((sum, item) => sum + item.price, 0);
+  cartTotal.textContent = total;
+
+  cartList.innerHTML = "";
+  cart.forEach(item => {
+    cartList.innerHTML += `<li>${item.name} - $${item.price}</li>`;
+  });
+}
+
+displayProducts();
